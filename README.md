@@ -218,7 +218,7 @@ In order to use Terraform and `cert-manager` with the Cloudflare DNS challenge y
 4. If everything goes as planned you should see Ansible running the k3s install Playbook against your nodes.
 
 5. Verify the nodes are online
-   
+
 ```sh
 kubectl --kubeconfig=./provision/kubeconfig get nodes
 # NAME           STATUS   ROLES                       AGE     VERSION
@@ -256,7 +256,7 @@ kubectl --kubeconfig=./provision/kubeconfig create secret generic sops-gpg \
     --from-file=sops.asc=/dev/stdin
 ```
 
-:round_pushpin: Variables defined in `./cluster/base/cluster-secrets.sops.yaml` and `./cluster/base/cluster-settings.sops.yaml` will be usable anywhere in your YAML manifests under `./cluster`
+:round_pushpin: Variables defined in `./cluster/base/cluster-secrets.sops.yaml` and `./cluster/base/cluster-settings.yaml` will be usable anywhere in your YAML manifests under `./cluster`
 
 4. **Verify** all the above files are **encrypted** with SOPS
 
