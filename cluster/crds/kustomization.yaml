@@ -4,4 +4,3 @@ resources:
   - cert-manager
   - traefik
   - rook-ceph
-  - external-dns
