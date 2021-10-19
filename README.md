@@ -220,7 +220,7 @@ In order to use Terraform and `cert-manager` with the Cloudflare DNS challenge y
 5. Verify the nodes are online
 
 ```sh
-kubectl --kubeconfig=./provision/kubeconfig get nodes
+kubectl get nodes
 # NAME           STATUS   ROLES                       AGE     VERSION
 # k8s-0          Ready    control-plane,master      4d20h   v1.21.5+k3s1
 # k8s-1          Ready    worker                    4d20h   v1.21.5+k3s1
@@ -233,7 +233,7 @@ kubectl --kubeconfig=./provision/kubeconfig get nodes
 1. Verify Flux can be installed
 
 ```sh
-flux --kubeconfig=./provision/kubeconfig check --pre
+flux check --pre
 # ► checking prerequisites
 # ✔ kubectl 1.21.5 >=1.18.0-0
 # ✔ Kubernetes 1.21.5+k3s1 >=1.16.0-0
@@ -243,7 +243,7 @@ flux --kubeconfig=./provision/kubeconfig check --pre
 2. Pre-create the `flux-system` namespace
 
 ```sh
-kubectl --kubeconfig=./provision/kubeconfig create namespace flux-system --dry-run=client -o yaml | kubectl --kubeconfig=./provision/kubeconfig apply -f -
+kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 3. Add the Flux GPG key in-order for Flux to decrypt SOPS secrets
@@ -251,7 +251,7 @@ kubectl --kubeconfig=./provision/kubeconfig create namespace flux-system --dry-r
 ```sh
 source .config.env
 gpg --export-secret-keys --armor "${BOOTSTRAP_FLUX_KEY_FP}" |
-kubectl --kubeconfig=./provision/kubeconfig create secret generic sops-gpg \
+kubectl create secret generic sops-gpg \
     --namespace=flux-system \
     --from-file=sops.asc=/dev/stdin
 ```
@@ -275,7 +275,7 @@ git push
 :round_pushpin: Due to race conditions with the Flux CRDs you will have to run the below command twice. There should be no errors on this second run.
 
 ```sh
-kubectl --kubeconfig=./provision/kubeconfig apply --kustomize=./cluster/base/flux-system
+kubectl apply --kustomize=./cluster/base/flux-system
 # namespace/flux-system configured
 # customresourcedefinition.apiextensions.k8s.io/alerts.notification.toolkit.fluxcd.io created
 # ...
@@ -290,7 +290,7 @@ kubectl --kubeconfig=./provision/kubeconfig apply --kustomize=./cluster/base/flu
 8. Verify Flux components are running in the cluster
 
 ```sh
-kubectl --kubeconfig=./provision/kubeconfig get pods -n flux-system
+kubectl get pods -n flux-system
 # NAME                                       READY   STATUS    RESTARTS   AGE
 # helm-controller-5bbd94c75-89sb4            1/1     Running   0          1h
 # kustomize-controller-7b67b6b77d-nqc67      1/1     Running   0          1h
