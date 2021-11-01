@@ -43,12 +43,12 @@ spec:
                 nodes:
                     - name: k8s-3
                       devices:
-                        - name: /dev/vda1
+                        - name: "/dev/vda1"
                     - name: k8s-4
                       devices:
-                        - name: /dev/vda1
+                        - name: "/dev/vda1"
                     - name: k8s-5
                       devices:
-                        - name: /dev/vda1
+                        - name: "/dev/vda1"
         cephFileSystems: []
         cephObjectStores: []
