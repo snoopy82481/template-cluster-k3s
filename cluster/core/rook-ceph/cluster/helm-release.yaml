@@ -42,13 +42,13 @@ spec:
         nodes:
           - name: "k8s-3"
             devices:
-              - name: "sdb"
+              - name: "/dev/sdb"
           - name: "k8s-4"
             devices:
-              - name: "sdb"
+              - name: "/dev/sdb"
           - name: "k8s-5"
             devices:
-              - name: "sdb"
+              - name: "/dev/sdb"
     cephBlockPools:
       - name: ceph-blockpool
         spec:
