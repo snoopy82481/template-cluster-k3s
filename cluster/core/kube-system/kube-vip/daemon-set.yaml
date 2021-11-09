@@ -18,6 +18,16 @@ spec:
         app.kubernetes.io/instance: kube-vip
         app.kubernetes.io/name: kube-vip
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringScheduledIgnoreDuringExecution:
+            nodeSelectorTerms:
+            - matchExpression:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+            - matchExpression:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
       containers:
         - name: kube-vip
           image: ghcr.io/kube-vip/kube-vip:v0.3.9
@@ -26,7 +36,7 @@ spec:
             - manager
           env:
             - name: vip_arp
-              value: "true"
+              value: "false"
             - name: vip_interface
               value: "ens18"
             - name: port
@@ -39,6 +49,19 @@ spec:
               value: kube-system
             - name: svc_enable
               value: "false"
+            - bgp_enable:
+              value: "true"
+            - name: bgp_routerid
+            - name: bgp_as
+              value: "65000"
+            - name: bgp_peeraddress
+            - name: bgp_peerpass
+            - name: bgp_peeras
+              value: "65000"
+            - name: bgp_peers
+              value: 192.168.0.1:65000::false
+            - name: bgp_routerinterface
+              value: "ens18"
             - name: vip_address
               value: "192.168.20.254"
           securityContext:
@@ -56,6 +79,7 @@ spec:
         node-role.kubernetes.io/master: "true"
       serviceAccountName: kube-vip
       tolerations:
-        - key: node-role.kubernetes.io/master
+        - effect: NoSchedule
           operator: Exists
-          effect: NoSchedule
+        - effect: NoExecute
+          operator: Exists
