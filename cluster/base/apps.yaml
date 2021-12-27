@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+=======
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+>>>>>>> template/main
 kind: Kustomization
 metadata:
   name: apps
@@ -16,7 +20,11 @@ spec:
   decryption:
     provider: sops
     secretRef:
+<<<<<<< HEAD
       name: sops-gpg
+=======
+      name: sops-age
+>>>>>>> template/main
   postBuild:
     substitute: {}
     substituteFrom:

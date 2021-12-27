@@ -4,5 +4,8 @@ resources:
   - cert-manager.yaml
   - metallb-system.yaml
   - networking.yaml
+<<<<<<< HEAD
   - media.yaml
   - rook-ceph.yaml
+=======
+>>>>>>> template/main

@@ -3,5 +3,8 @@ kind: Kustomization
 resources:
   - cert-manager
   - traefik
+<<<<<<< HEAD
   - rook-ceph
   - external-dns
+=======
+>>>>>>> template/main

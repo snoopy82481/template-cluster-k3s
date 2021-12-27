@@ -6,4 +6,7 @@ resources:
   - kube-system
   - metallb-system
   - system-upgrade
+<<<<<<< HEAD
   - rook-ceph
+=======
+>>>>>>> template/main

@@ -20,11 +20,7 @@ spec:
     spec:
       containers:
         - name: kube-vip
-<<<<<<< HEAD
-          image: ghcr.io/kube-vip/kube-vip:v0.3.8
-=======
           image: ghcr.io/kube-vip/kube-vip:v0.4.0
->>>>>>> template/main
           imagePullPolicy: IfNotPresent
           args:
             - manager
@@ -32,7 +28,7 @@ spec:
             - name: vip_arp
               value: "true"
             - name: vip_interface
-              value: "{{ kubevip_interface }}"
+              value: "${BOOTSTRAP_ANSIBLE_KUBE_VIP_INTERFACE}"
             - name: port
               value: "6443"
             - name: vip_cidr
@@ -44,15 +40,10 @@ spec:
             - name: svc_enable
               value: "false"
             - name: vip_address
-              value: "{{ k3s_registration_address }}"
+              value: "${BOOTSTRAP_ANSIBLE_KUBE_VIP_ADDRESS}"
           securityContext:
             capabilities:
               add:
-<<<<<<< HEAD
-              - NET_ADMIN
-              - NET_RAW
-              - SYS_TIME
-=======
                 - NET_ADMIN
                 - NET_RAW
                 - SYS_TIME
@@ -60,7 +51,6 @@ spec:
         - hostnames:
             - kubernetes
           ip: 127.0.0.1
->>>>>>> template/main
       hostNetwork: true
       nodeSelector:
         node-role.kubernetes.io/master: "true"

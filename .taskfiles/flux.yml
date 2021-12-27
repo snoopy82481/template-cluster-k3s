@@ -7,9 +7,12 @@ tasks:
     cmds:
       - flux reconcile source git flux-system
     silent: true
+<<<<<<< HEAD
 
   upgrade:
     desc: Upgrade flux CLI version
     cmds:
       - brew upgrade fluxcd/tap/flux
     silent: true
+=======
+>>>>>>> template/main

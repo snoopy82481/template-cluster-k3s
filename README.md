@@ -2,7 +2,11 @@
 
 Highly opinionated template for deploying a single [k3s](https://k3s.io) cluster with [Ansible](https://www.ansible.com) and [Terraform](https://www.terraform.io) backed by [Flux](https://toolkit.fluxcd.io/) and [SOPS](https://toolkit.fluxcd.io/guides/mozilla-sops/).
 
+<<<<<<< HEAD
 The purpose here is to showcase how you can deploy an entire Kubernetes cluster and show it off to the world using the [GitOps](https://www.weave.works/blog/what-is-gitops-really) tool [Flux](https://toolkit.fluxcd.io/). When completed, your Git repository will be driving the state of your Kubernetes cluster. In addition with the help of the [Ansible](https://github.com/ansible-collections/community.sops), [Terraform](https://github.com/carlpett/terraform-provider-sops) and [Flux](https://toolkit.fluxcd.io/guides/mozilla-sops/) SOPS integrations you'll be able to commit GPG encrypted secrets to your public repo.
+=======
+The purpose here is to showcase how you can deploy an entire Kubernetes cluster and show it off to the world using the [GitOps](https://www.weave.works/blog/what-is-gitops-really) tool [Flux](https://toolkit.fluxcd.io/). When completed, your Git repository will be driving the state of your Kubernetes cluster. In addition with the help of the [Ansible](https://github.com/ansible-collections/community.sops), [Terraform](https://github.com/carlpett/terraform-provider-sops) and [Flux](https://toolkit.fluxcd.io/guides/mozilla-sops/) SOPS integrations you'll be able to commit Age encrypted secrets to your public repo.
+>>>>>>> template/main
 
 ## Overview
 
@@ -40,7 +44,11 @@ For provisioning the following tools will be used:
 
 ### :computer:&nbsp; Systems
 
+<<<<<<< HEAD
 - One or mote nodes with a fresh install of [Ubuntu Server 20.04](https://ubuntu.com/download/server). These nodes can be bare metal or VMs.
+=======
+- One or more nodes with a fresh install of [Ubuntu Server 20.04](https://ubuntu.com/download/server). These nodes can be bare metal or VMs.
+>>>>>>> template/main
 - A [Cloudflare](https://www.cloudflare.com/) account with a domain, this will be managed by Terraform.
 - Some experience in debugging problems and a positive attitude ;)
 
@@ -50,6 +58,7 @@ For provisioning the following tools will be used:
 
 #### Required
 
+<<<<<<< HEAD
 | Tool                                                               | Purpose                                                             |
 |--------------------------------------------------------------------|---------------------------------------------------------------------|
 | [ansible](https://www.ansible.com)                                 | Preparing Ubuntu for Kubernetes and installing k3s                  |
@@ -72,6 +81,29 @@ For provisioning the following tools will be used:
 | [kustomize](https://kustomize.io/)                                 | Template-free way to customize application configuration            |
 | [pre-commit](https://github.com/pre-commit/pre-commit)             | Runs checks pre `git commit`                                        |
 | [prettier](https://github.com/prettier/prettier)                   | Prettier is an opinionated code formatter.                          |
+=======
+| Tool                                               | Purpose                                                                                                                                 |
+|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [ansible](https://www.ansible.com)                 | Preparing Ubuntu for Kubernetes and installing k3s                                                                                      |
+| [direnv](https://github.com/direnv/direnv)         | Exports env vars based on present working directory                                                                                     |
+| [flux](https://toolkit.fluxcd.io/)                 | Operator that manages your k8s cluster based on your Git repository                                                                     |
+| [age](https://github.com/FiloSottile/age)          | A simple, modern and secure encryption tool (and Go library) with small explicit keys, no config options, and UNIX-style composability. |
+| [go-task](https://github.com/go-task/task)         | A task runner / simpler Make alternative written in Go                                                                                  |
+| [ipcalc](http://jodies.de/ipcalc)                  | Used to verify settings in the configure script                                                                                         |
+| [jq](https://stedolan.github.io/jq/)               | Used to verify settings in the configure script                                                                                         |
+| [kubectl](https://kubernetes.io/docs/tasks/tools/) | Allows you to run commands against Kubernetes clusters                                                                                  |
+| [sops](https://github.com/mozilla/sops)            | Encrypts k8s secrets with Age                                                                                                           |
+| [terraform](https://www.terraform.io)              | Prepare a Cloudflare domain to be used with the cluster                                                                                 |
+
+#### Optional
+
+| Tool                                                   | Purpose                                                  |
+|--------------------------------------------------------|----------------------------------------------------------|
+| [helm](https://helm.sh/)                               | Manage Kubernetes applications                           |
+| [kustomize](https://kustomize.io/)                     | Template-free way to customize application configuration |
+| [pre-commit](https://github.com/pre-commit/pre-commit) | Runs checks pre `git commit`                             |
+| [prettier](https://github.com/prettier/prettier)       | Prettier is an opinionated code formatter.               |
+>>>>>>> template/main
 
 ### :warning:&nbsp; pre-commit
 
@@ -118,6 +150,7 @@ Clone the repo to you local workstation and `cd` into it.
 
 :round_pushpin: **All of the below commands** are run on your **local** workstation, **not** on any of your cluster nodes.
 
+<<<<<<< HEAD
 ### :closed_lock_with_key:&nbsp; Setting up GnuPG keys
 
 :round_pushpin: Here we will create a personal and a Flux GPG key. Using SOPS with GnuPG allows us to encrypt and decrypt secrets.
@@ -168,6 +201,33 @@ gpg --list-secret-keys "${FLUX_KEY_NAME}"
 ```
 
 3. You will need the Fingerprints in the configuration section below. For example, in the above steps you will need `772154FFF783DE317KLCA0EC77149AC618D75581` and `AB675CE4CC64251G3S9AE1DAA88ARRTY2C009E2D`
+=======
+### :closed_lock_with_key:&nbsp; Setting up Age
+
+:round_pushpin: Here we will create a Age Private and Public key. Using SOPS with Age allows us to encrypt and decrypt secrets.
+
+1. Create a Age Private / Public Key
+
+```sh
+age-keygen -o age.agekey
+```
+
+2. Set up the directory for the Age key and move the Age file to it
+
+```sh
+mkdir -p ~/.config/sops/age
+mv age.agekey ~/.config/sops/age/keys.txt
+```
+
+3. Export the `SOPS_AGE_KEY_FILE` variable in your `bashrc`, `zshrc` or `config.fish` and source it, e.g.
+
+```sh
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+source ~/.bashrc
+```
+
+4. Fill out the Age public key in the `.config.env` under `BOOTSTRAP_AGE_PUBLIC_KEY`, **note** the public key should start with `age`...
+>>>>>>> template/main
 
 ### :cloud:&nbsp; Global Cloudflare API Key
 
@@ -193,6 +253,11 @@ In order to use Terraform and `cert-manager` with the Cloudflare DNS challenge y
 
 :round_pushpin: Here we will be running a Ansible Playbook to prepare Ubuntu for running a Kubernetes cluster.
 
+<<<<<<< HEAD
+=======
+:round_pushpin: Nodes are not security hardened by default, you can do this with [dev-sec/ansible-collection-hardening](https://github.com/dev-sec/ansible-collection-hardening) or something similar.
+
+>>>>>>> template/main
 1. Ensure you are able to SSH into you nodes from your workstation with using your private ssh key. This is how Ansible is able to connect to your remote nodes.
 
 2. Install the deps by running `task ansible:deps`
@@ -218,9 +283,15 @@ In order to use Terraform and `cert-manager` with the Cloudflare DNS challenge y
 4. If everything goes as planned you should see Ansible running the k3s install Playbook against your nodes.
 
 5. Verify the nodes are online
+<<<<<<< HEAD
 
 ```sh
 kubectl get nodes
+=======
+   
+```sh
+kubectl --kubeconfig=./provision/kubeconfig get nodes
+>>>>>>> template/main
 # NAME           STATUS   ROLES                       AGE     VERSION
 # k8s-0          Ready    control-plane,master      4d20h   v1.21.5+k3s1
 # k8s-1          Ready    worker                    4d20h   v1.21.5+k3s1
@@ -233,7 +304,11 @@ kubectl get nodes
 1. Verify Flux can be installed
 
 ```sh
+<<<<<<< HEAD
 flux check --pre
+=======
+flux --kubeconfig=./provision/kubeconfig check --pre
+>>>>>>> template/main
 # ► checking prerequisites
 # ✔ kubectl 1.21.5 >=1.18.0-0
 # ✔ Kubernetes 1.21.5+k3s1 >=1.16.0-0
@@ -243,6 +318,7 @@ flux check --pre
 2. Pre-create the `flux-system` namespace
 
 ```sh
+<<<<<<< HEAD
 kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
 ```
 
@@ -257,6 +333,21 @@ kubectl create secret generic sops-gpg \
 ```
 
 :round_pushpin: Variables defined in `./cluster/base/cluster-secrets.sops.yaml` and `./cluster/base/cluster-settings.yaml` will be usable anywhere in your YAML manifests under `./cluster`
+=======
+kubectl --kubeconfig=./provision/kubeconfig create namespace flux-system --dry-run=client -o yaml | kubectl --kubeconfig=./provision/kubeconfig apply -f -
+```
+
+3. Add the Age key in-order for Flux to decrypt SOPS secrets
+
+```sh
+cat ~/.config/sops/age/keys.txt |
+    kubectl --kubeconfig=./provision/kubeconfig \
+    -n flux-system create secret generic sops-age \
+    --from-file=age.agekey=/dev/stdin
+```
+
+:round_pushpin: Variables defined in `./cluster/base/cluster-secrets.sops.yaml` and `./cluster/base/cluster-settings.sops.yaml` will be usable anywhere in your YAML manifests under `./cluster`
+>>>>>>> template/main
 
 4. **Verify** all the above files are **encrypted** with SOPS
 
@@ -275,7 +366,11 @@ git push
 :round_pushpin: Due to race conditions with the Flux CRDs you will have to run the below command twice. There should be no errors on this second run.
 
 ```sh
+<<<<<<< HEAD
 kubectl apply --kustomize=./cluster/base/flux-system
+=======
+kubectl --kubeconfig=./provision/kubeconfig apply --kustomize=./cluster/base/flux-system
+>>>>>>> template/main
 # namespace/flux-system configured
 # customresourcedefinition.apiextensions.k8s.io/alerts.notification.toolkit.fluxcd.io created
 # ...
@@ -290,7 +385,11 @@ kubectl apply --kustomize=./cluster/base/flux-system
 8. Verify Flux components are running in the cluster
 
 ```sh
+<<<<<<< HEAD
 kubectl get pods -n flux-system
+=======
+kubectl --kubeconfig=./provision/kubeconfig get pods -n flux-system
+>>>>>>> template/main
 # NAME                                       READY   STATUS    RESTARTS   AGE
 # helm-controller-5bbd94c75-89sb4            1/1     Running   0          1h
 # kustomize-controller-7b67b6b77d-nqc67      1/1     Running   0          1h

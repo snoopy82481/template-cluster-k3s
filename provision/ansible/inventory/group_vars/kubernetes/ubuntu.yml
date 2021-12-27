@@ -1,6 +1,10 @@
 ---
 # (string) Timezone for the servers
+<<<<<<< HEAD
 timezone: "America/Boise"
+=======
+# timezone: "America/New_York"
+>>>>>>> template/main
 
 # (list) Additional ssh public keys to add to the nodes
 # ssh_authorized_keys:
